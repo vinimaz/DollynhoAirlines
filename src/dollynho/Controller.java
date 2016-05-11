@@ -55,6 +55,14 @@ public class Controller implements Initializable {
     public TextField inputHospPreco;
     public TextField inputHospQuantidade;
 
+    //Table Usuario
+    public TableView<Usuario>               tabelaUsuario;
+    public ObservableList<Usuario>          usuarioList;
+    public TableColumn<Usuario, String>     usuarioName;
+    public TableColumn<Usuario, String>     usuarioOque;
+    public TableColumn<Usuario, Number>     usuarioPedidoId;
+    public TableColumn<Usuario, Number>     usuarioPrecoAnterior;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,6 +86,12 @@ public class Controller implements Initializable {
         hotelHospColumn.setCellValueFactory(cellData -> cellData.getValue().getHotelProperty());
         precoHospColumn.setCellValueFactory(cellData -> cellData.getValue().getPrecoQuartoProperty());
         quantidadeHospColumn.setCellValueFactory(cellData -> cellData.getValue().getQuartosProperty());
+
+        //Iniciando colunas da tabela de Usuario
+        usuarioName.setCellValueFactory(cellData -> cellData.getValue().getRefCli());
+        usuarioOque.setCellValueFactory(cellData -> cellData.getValue().getDescricao());
+        usuarioPedidoId.setCellValueFactory(cellData -> cellData.getValue().getId());
+        usuarioPrecoAnterior.setCellValueFactory(cellData -> cellData.getValue().getPrecoAnterior());
 
         tabelaHospedagem.setItems(hospedagemList);
 
