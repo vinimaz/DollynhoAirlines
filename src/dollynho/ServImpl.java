@@ -46,6 +46,8 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
     }
 
+    //asd
+
     @Override
     public synchronized void cadastraNotificacaoPassagem(InterfaceCli cliente, int idPas, float preco) throws RemoteException {
 
