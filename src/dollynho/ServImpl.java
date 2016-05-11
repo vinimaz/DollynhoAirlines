@@ -13,7 +13,7 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
 
 
-    protected ServImpl() throws RemoteException {
+    public ServImpl() throws RemoteException {
     }
 
     @Override
@@ -44,6 +44,11 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     @Override
     public synchronized void cadastraNotificacao(InterfaceCli cliente, int id,
                                                  float preco, String descricao) throws RemoteException {
+        System.out.println("Cliente passou por aqui");
         Controller.addRegistroUsuario(id, cliente, preco, descricao);
+    }
+
+    public void echoTest(){
+        System.out.println("Cliente passou pelo echoTest");
     }
 }
