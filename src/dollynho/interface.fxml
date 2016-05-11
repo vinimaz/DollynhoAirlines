@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.SepiaTone?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dollynho.Controller">
+   <children>
+      <Pane fx:id="introPane" layoutX="-0.0" layoutY="-0.0" prefHeight="600.0" prefWidth="800.0" visible="false">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="336.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../dollynhoIntro.png" />
+               </image>
+            </ImageView>
+            <Text fill="#797575" layoutX="105.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seja bem-vindo ao software Server da DollynhoAirlines!">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <DropShadow color="#0000004d" />
+               </effect>
+            </Text>
+            <Button fx:id="startBt" layoutX="375.0" layoutY="265.0" mnemonicParsing="false" onAction="#clicou" text="Iniciar" />
+         </children>
+      </Pane>
+      <Pane fx:id="serverPane" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TabPane fx:id="tabPaneGeral" layoutY="-0.0" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Passagens">
+                  <content>
+                        <Pane prefHeight="400.0" prefWidth="730.0">
+                           <children>
+                              <Pane layoutY="40.0">
+                                 <children>
+                                    <TableView fx:id="tabelaPassagens" prefHeight="400.0" prefWidth="760.0">
+                                      <columns>
+                                        <TableColumn id="origemColumn" fx:id="origemPasColumn" prefWidth="150.0" text="Origem" />
+                                        <TableColumn fx:id="destinoPasColumn" prefWidth="150.0" text="Destino" />
+                                          <TableColumn fx:id="dataIdaPasColumn" prefWidth="150.0" text="Data" />
+                                          <TableColumn fx:id="precoPasColumn" prefWidth="150.0" text="Preço Unitário" />
+                                          <TableColumn fx:id="quantidadePasColumn" prefWidth="159.0" text="Quantidade Disponível" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </Pane>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="604.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../dollynhoIntro.png" />
+                                 </image>
+                              </ImageView>
+                              <GridPane hgap="5.0" layoutX="2.0" layoutY="8.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Button layoutY="30.0" mnemonicParsing="false" onAction="#abrirPaneCadastroPassagem" text="Adicionar" />
+                                    <Button mnemonicParsing="false" text="Editar" GridPane.columnIndex="1" />
+                                    <Button mnemonicParsing="false" text="Deletar" GridPane.columnIndex="2">
+                                       <effect>
+                                          <SepiaTone level="0.17" />
+                                       </effect></Button>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </Pane>
+                  </content>
+                </Tab>
+                <Tab text="Hospedagem">
+                  <content>
+                        <Pane>
+                           <children>
+                              <TableView fx:id="tabelaHospedagem" layoutY="40.0" prefHeight="400.0" prefWidth="760.0">
+                                <columns>
+                                  <TableColumn fx:id="cidadeHospColumn" prefWidth="190.0" text="Cidade" />
+                                  <TableColumn fx:id="hotelHospColumn" prefWidth="190.0" text="Hotel" />
+                                    <TableColumn fx:id="quantidadeHospColumn" prefWidth="190.0" text="Número de Quartos" />
+                                    <TableColumn fx:id="precoHospColumn" prefWidth="190.0" text="Preço por quarto" />
+                                </columns>
+                              </TableView>
+                              <ImageView fitHeight="150.0" fitWidth="664.0" layoutX="604.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../dollynhoIntro.png" />
+                                 </image>
+                              </ImageView>
+                              <GridPane hgap="5.0" layoutX="2.0" layoutY="8.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#abrirPaneCadastroHospedagem" text="Adicionar" />
+                                    <Button layoutY="10.0" mnemonicParsing="false" text="Editar" GridPane.columnIndex="1" />
+                                    <Button mnemonicParsing="false" text="Deletar" GridPane.columnIndex="2">
+                                       <effect>
+                                          <SepiaTone level="0.17" />
+                                       </effect></Button>
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </Pane>
+                  </content>
+                </Tab>
+                  <Tab text="Usuários">
+                    <content>
+                        <Pane>
+                           <children>
+                              <TableView fx:id="tabelaUsuario" layoutY="40.0" prefHeight="400.0" prefWidth="760.0">
+                                <columns>
+                                  <TableColumn prefWidth="150.0" text="Cidade" />
+                                  <TableColumn prefWidth="150.0" text="Hotel" />
+                                </columns>
+                              </TableView>
+                              <ImageView fitHeight="150.0" fitWidth="664.0" layoutX="604.0" layoutY="377.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../dollynhoIntro.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                    </content>
+                  </Tab>
+              </tabs>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </TabPane>
+            <Pane fx:id="painelCadastroPassagem" layoutX="159.0" layoutY="139.0" prefHeight="300.0" prefWidth="454.0" style="-fx-border-radius: 10px; -fx-border-color: #BDBDBD;" visible="false">
+               <children>
+                  <GridPane alignment="CENTER" layoutX="15.0" layoutY="20.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de passagem">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Data de ida" GridPane.rowIndex="1" />
+                        <TextField fx:id="inputPasDataIda" promptText="DD/MM//YYYY" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Origem" GridPane.rowIndex="2" />
+                        <TextField fx:id="inputPasOrigem" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Destino" GridPane.rowIndex="3" />
+                        <TextField fx:id="inputPasDestino" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Preço" GridPane.rowIndex="4" />
+                        <TextField fx:id="inputPasPreco" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Qtd disponível" GridPane.rowIndex="5" />
+                        <TextField fx:id="inputPasQuantidade" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                     </children>
+                  </GridPane>
+                  <GridPane hgap="5.0" layoutX="285.0" layoutY="240.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button fx:id="inputPasSalvar" mnemonicParsing="false" onAction="#addPassagem" text="Salvar" GridPane.columnIndex="1" />
+                        <Button fx:id="inputPasCancelar" mnemonicParsing="false" onAction="#cancelarCadastroPassagens" text="Cancelar" />
+                     </children>
+                  </GridPane>
+               </children>
+            </Pane>
+            <Pane fx:id="painelCadastroHospedagem" layoutX="159.0" layoutY="139.0" prefHeight="300.0" prefWidth="454.0" style="-fx-border-radius: 10px; -fx-border-color: #BDBDBD;" visible="false">
+               <children>
+                  <GridPane alignment="CENTER" layoutX="15.0" layoutY="20.0" prefHeight="176.0" prefWidth="416.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastro de hospedagem">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cidade" GridPane.rowIndex="1" />
+                        <TextField fx:id="inputHospCidade" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hotel" GridPane.rowIndex="2" />
+                        <TextField fx:id="inputHospHotel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Preço" GridPane.rowIndex="3" />
+                        <TextField fx:id="inputHospPreco" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Qtd disponível" GridPane.rowIndex="4" />
+                        <TextField fx:id="inputHospQuantidade" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     </children>
+                  </GridPane>
+                  <GridPane hgap="5.0" layoutX="295.0" layoutY="240.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button fx:id="inputHospSalvar" mnemonicParsing="false" onAction="#addHospedagem" text="Salvar" GridPane.columnIndex="1" />
+                        <Button fx:id="inputHospCancelar" mnemonicParsing="false" onAction="#cancelarCadastroHospedagem" text="Cancelar" />
+                     </children>
+                  </GridPane>
+               </children>
+            </Pane>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" />
+         </padding></Pane>
+   </children>
+</AnchorPane>
