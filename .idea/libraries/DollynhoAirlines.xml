@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="DollynhoAirlines">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/DollynhoAirlines.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
