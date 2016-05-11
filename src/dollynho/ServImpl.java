@@ -12,7 +12,7 @@ import java.util.Date;
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
 
-
+// HUEHUEHUEHUEHUHEUHEUHEUHE
     protected ServImpl() throws RemoteException {
     }
 
@@ -45,6 +45,8 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     public synchronized void cadastraNotificacaoHospedagem(InterfaceCli cliente, int idHosp, float preco) throws RemoteException {
 
     }
+
+    //asd
 
     @Override
     public synchronized void cadastraNotificacaoPassagem(InterfaceCli cliente, int idPas, float preco) throws RemoteException {
