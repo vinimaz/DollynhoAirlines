@@ -12,7 +12,7 @@ import java.util.Date;
 public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
 
 
-
+// HUEHUEHUEHUEHUHEUHEUHEUHE
     protected ServImpl() throws RemoteException {
     }
 
