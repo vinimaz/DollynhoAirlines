@@ -1,6 +1,5 @@
 package dollynho;
 
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -26,13 +25,13 @@ public class Controller implements Initializable {
 //    public TableView tabelaPassagens;
 
     //Table Passagem
-    public ObservableList<Passagem>         passagemList;
-    public TableView<Passagem>              tabelaPassagens;
-    public TableColumn<Passagem, String>    origemPasColumn;
-    public TableColumn<Passagem, String>    destinoPasColumn;
-    public TableColumn<Passagem, LocalDate> dataIdaPasColumn;
-    public TableColumn<Passagem, Number>    precoPasColumn;
-    public TableColumn<Passagem, Number>    quantidadePasColumn;
+    public static ObservableList<Passagem>      passagemList;
+    public TableView<Passagem>                  tabelaPassagens;
+    public TableColumn<Passagem, String>        origemPasColumn;
+    public TableColumn<Passagem, String>        destinoPasColumn;
+    public TableColumn<Passagem, LocalDate>     dataIdaPasColumn;
+    public TableColumn<Passagem, Number>        precoPasColumn;
+    public TableColumn<Passagem, Number>        quantidadePasColumn;
 
     //TextField Passagem
     public TextField inputPasDataIda;
@@ -42,12 +41,12 @@ public class Controller implements Initializable {
     public TextField inputPasQuantidade;
 
     //Table Hospedagem
-    public TableView<Hospedagem>            tabelaHospedagem;
-    public ObservableList<Hospedagem>       hospedagemList;
-    public TableColumn<Hospedagem, String>  cidadeHospColumn;
-    public TableColumn<Hospedagem, String>  hotelHospColumn;
-    public TableColumn<Hospedagem, Number>  precoHospColumn;
-    public TableColumn<Hospedagem, Number>  quantidadeHospColumn;
+    public TableView<Hospedagem>                tabelaHospedagem;
+    public static ObservableList<Hospedagem>    hospedagemList;
+    public TableColumn<Hospedagem, String>      cidadeHospColumn;
+    public TableColumn<Hospedagem, String>      hotelHospColumn;
+    public TableColumn<Hospedagem, Number>      precoHospColumn;
+    public TableColumn<Hospedagem, Number>      quantidadeHospColumn;
 
     //TextField Hospedagem
     public TextField inputHospCidade;
@@ -56,12 +55,12 @@ public class Controller implements Initializable {
     public TextField inputHospQuantidade;
 
     //Table Usuario
-    public TableView<Usuario>               tabelaUsuario;
-    public ObservableList<Usuario>          usuarioList;
-    public TableColumn<Usuario, String>     usuarioName;
-    public TableColumn<Usuario, String>     usuarioOque;
-    public TableColumn<Usuario, Number>     usuarioPedidoId;
-    public TableColumn<Usuario, Number>     usuarioPrecoAnterior;
+    public TableView<Usuario>                   tabelaUsuario;
+    public static ObservableList<Usuario>       usuarioList;
+    public TableColumn<Usuario, String>         usuarioName;
+    public TableColumn<Usuario, String>         usuarioDescricao;
+    public TableColumn<Usuario, Number>         usuarioPedidoId;
+    public TableColumn<Usuario, Number>         usuarioPrecoAnterior;
 
 
     @Override
@@ -87,13 +86,15 @@ public class Controller implements Initializable {
         precoHospColumn.setCellValueFactory(cellData -> cellData.getValue().getPrecoQuartoProperty());
         quantidadeHospColumn.setCellValueFactory(cellData -> cellData.getValue().getQuartosProperty());
 
+        tabelaHospedagem.setItems(hospedagemList);
+
         //Iniciando colunas da tabela de Usuario
         usuarioName.setCellValueFactory(cellData -> cellData.getValue().getRefCli());
-        usuarioOque.setCellValueFactory(cellData -> cellData.getValue().getDescricao());
+        usuarioDescricao.setCellValueFactory(cellData -> cellData.getValue().getDescricao());
         usuarioPedidoId.setCellValueFactory(cellData -> cellData.getValue().getId());
         usuarioPrecoAnterior.setCellValueFactory(cellData -> cellData.getValue().getPrecoAnterior());
 
-        tabelaHospedagem.setItems(hospedagemList);
+        tabelaUsuario.setItems(usuarioList);
 
     }
 
@@ -182,6 +183,18 @@ public class Controller implements Initializable {
 
         tabPaneGeral.setVisible(true);
         painelCadastroPassagem.setVisible(false);
+    }
+
+
+    /*==================
+     METODOS DO SERVIDOR
+     =================*/
+
+    public static synchronized void addRegistroUsuario(int idTransacao, InterfaceCli refCli,
+                                                       float precoAnterior, String descricao){
+        usuarioList.add(new Usuario(idTransacao, refCli, precoAnterior, descricao));
+        System.out.println("Recebido um pedido de registro de notificacao");
+        System.out.println("ID: " + idTransacao + " Preco: " + precoAnterior + " Descricao: " + descricao);
     }
 
 }

@@ -18,7 +18,6 @@ public interface InterfaceServ extends Remote {
                                                   int numAdultos, int numCriancas) throws RemoteException;
     public ArrayList<Hospedagem> getSearchHospedagem(String cidade, String hotel, LocalDate inicio, LocalDate fim,
                                                      int qtdQuartos, int numPessoas) throws RemoteException;
-    public void cadastraNotificacaoHospedagem(InterfaceCli cliente, int idHosp, float preco) throws RemoteException;
-    public void cadastraNotificacaoPassagem(InterfaceCli cliente, int idPas, float preco) throws RemoteException;
+    public void cadastraNotificacao(InterfaceCli cliente, int idPas, float preco, String descricao) throws RemoteException;
 
 }

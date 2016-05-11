@@ -23,17 +23,12 @@ public class Servidor extends Application {
     }
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException {
-        defineDatabaseInicial();
         server = new ServImpl();
         int port = 6789;
+        //Cria o servidor de nomes
         Registry referenciaServicoNomes = LocateRegistry.createRegistry(port);
         referenciaServicoNomes.bind("Dollynho", server);
         System.out.println("Iniciado server RMI");
-        launch(args);               // cria a janela do javaFX
-    }
-
-    /* Função pra colocar as hospedagens e passagens na inicialização */
-    public static void defineDatabaseInicial(){
-
+        launch(args); //inicializa interface gráfica JavaFX
     }
 }

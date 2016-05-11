@@ -42,12 +42,8 @@ public class ServImpl extends UnicastRemoteObject implements InterfaceServ {
     }
 
     @Override
-    public synchronized void cadastraNotificacaoHospedagem(InterfaceCli cliente, int idHosp, float preco) throws RemoteException {
-
-    }
-
-    @Override
-    public synchronized void cadastraNotificacaoPassagem(InterfaceCli cliente, int idPas, float preco) throws RemoteException {
-
+    public synchronized void cadastraNotificacao(InterfaceCli cliente, int id,
+                                                 float preco, String descricao) throws RemoteException {
+        Controller.addRegistroUsuario(id, cliente, preco, descricao);
     }
 }
