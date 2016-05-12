@@ -1,7 +1,11 @@
 package dollynho;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.embed.swing.JFXPanel;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -9,11 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 
 public class Controller implements Initializable {
+    public JFXPanel jfxPanelDummy;
     public int controlIndex;
 
     public Button startBt;
@@ -25,7 +32,7 @@ public class Controller implements Initializable {
 //    public TableView tabelaPassagens;
 
     //Table Passagem
-    public static ObservableList<Passagem>      passagemList;
+    public ObservableList<Passagem>             passagemList;
     public TableView<Passagem>                  tabelaPassagens;
     public TableColumn<Passagem, String>        origemPasColumn;
     public TableColumn<Passagem, String>        destinoPasColumn;
@@ -42,7 +49,7 @@ public class Controller implements Initializable {
 
     //Table Hospedagem
     public TableView<Hospedagem>                tabelaHospedagem;
-    public static ObservableList<Hospedagem>    hospedagemList;
+    public ObservableList<Hospedagem>           hospedagemList;
     public TableColumn<Hospedagem, String>      cidadeHospColumn;
     public TableColumn<Hospedagem, String>      hotelHospColumn;
     public TableColumn<Hospedagem, Number>      precoHospColumn;
@@ -56,7 +63,7 @@ public class Controller implements Initializable {
 
     //Table Usuario
     public TableView<Usuario>                   tabelaUsuario;
-    public static ObservableList<Usuario>       usuarioList;
+    public static ObservableList<Usuario>              usuarioList;
     public TableColumn<Usuario, String>         usuarioName;
     public TableColumn<Usuario, String>         usuarioDescricao;
     public TableColumn<Usuario, Number>         usuarioPedidoId;
@@ -65,6 +72,8 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        jfxPanelDummy = new JFXPanel();
+
         controlIndex    = 100;
         passagemList    = FXCollections.observableArrayList();
         hospedagemList  = FXCollections.observableArrayList();
@@ -190,10 +199,48 @@ public class Controller implements Initializable {
      METODOS DO SERVIDOR
      =================*/
 
-    public static synchronized void addRegistroUsuario(int idTransacao, InterfaceCli refCli,
-                                                       float precoAnterior, String descricao){
-        usuarioList.add(new Usuario(idTransacao, refCli, precoAnterior, descricao));
+    public void addRegistroUsuario(int idTransacao, InterfaceCli refCli,
+                                                       float precoAnterior, String descricao) throws RemoteException{
+        jfxPanelDummy = new JFXPanel();
         System.out.println("Recebido um pedido de registro de notificacao");
+        Usuario auxUsuario = new Usuario(idTransacao,refCli,precoAnterior,descricao);
+        System.out.println("Passou do auxUsuario");
+
+
+
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        //Background work
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try{
+                                    //FX Stuff done here
+                                    usuarioList.add(auxUsuario);
+                                }finally{
+                                    latch.countDown();
+                                }
+                            }
+                        });
+                        latch.await();
+                        //Keep with the background work
+                        return null;
+                    }
+                };
+            }
+        };
+        service.start();
+
+
+
+
+
+
         System.out.println("ID: " + idTransacao + " Preco: " + precoAnterior + " Descricao: " + descricao);
     }
 
