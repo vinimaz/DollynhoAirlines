@@ -1,8 +1,11 @@
 package dollynho;
 
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.embed.swing.JFXPanel;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -10,11 +13,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
 
 
 public class Controller implements Initializable {
+    public JFXPanel jfxPanelDummy;
     public int controlIndex;
 
     public Button startBt;
@@ -26,13 +32,13 @@ public class Controller implements Initializable {
 //    public TableView tabelaPassagens;
 
     //Table Passagem
-    public ObservableList<Passagem>         passagemList;
-    public TableView<Passagem>              tabelaPassagens;
-    public TableColumn<Passagem, String>    origemPasColumn;
-    public TableColumn<Passagem, String>    destinoPasColumn;
-    public TableColumn<Passagem, LocalDate> dataIdaPasColumn;
-    public TableColumn<Passagem, Number>    precoPasColumn;
-    public TableColumn<Passagem, Number>    quantidadePasColumn;
+    public ObservableList<Passagem>             passagemList;
+    public TableView<Passagem>                  tabelaPassagens;
+    public TableColumn<Passagem, String>        origemPasColumn;
+    public TableColumn<Passagem, String>        destinoPasColumn;
+    public TableColumn<Passagem, LocalDate>     dataIdaPasColumn;
+    public TableColumn<Passagem, Number>        precoPasColumn;
+    public TableColumn<Passagem, Number>        quantidadePasColumn;
 
     //TextField Passagem
     public TextField inputPasDataIda;
@@ -42,12 +48,12 @@ public class Controller implements Initializable {
     public TextField inputPasQuantidade;
 
     //Table Hospedagem
-    public TableView<Hospedagem>            tabelaHospedagem;
-    public ObservableList<Hospedagem>       hospedagemList;
-    public TableColumn<Hospedagem, String>  cidadeHospColumn;
-    public TableColumn<Hospedagem, String>  hotelHospColumn;
-    public TableColumn<Hospedagem, Number>  precoHospColumn;
-    public TableColumn<Hospedagem, Number>  quantidadeHospColumn;
+    public TableView<Hospedagem>                tabelaHospedagem;
+    public ObservableList<Hospedagem>           hospedagemList;
+    public TableColumn<Hospedagem, String>      cidadeHospColumn;
+    public TableColumn<Hospedagem, String>      hotelHospColumn;
+    public TableColumn<Hospedagem, Number>      precoHospColumn;
+    public TableColumn<Hospedagem, Number>      quantidadeHospColumn;
 
     //TextField Hospedagem
     public TextField inputHospCidade;
@@ -55,9 +61,19 @@ public class Controller implements Initializable {
     public TextField inputHospPreco;
     public TextField inputHospQuantidade;
 
+    //Table Usuario
+    public TableView<Usuario>                   tabelaUsuario;
+    public static ObservableList<Usuario>              usuarioList;
+    public TableColumn<Usuario, String>         usuarioName;
+    public TableColumn<Usuario, String>         usuarioDescricao;
+    public TableColumn<Usuario, Number>         usuarioPedidoId;
+    public TableColumn<Usuario, Number>         usuarioPrecoAnterior;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        jfxPanelDummy = new JFXPanel();
+
         controlIndex    = 100;
         passagemList    = FXCollections.observableArrayList();
         hospedagemList  = FXCollections.observableArrayList();
@@ -80,6 +96,14 @@ public class Controller implements Initializable {
         quantidadeHospColumn.setCellValueFactory(cellData -> cellData.getValue().getQuartosProperty());
 
         tabelaHospedagem.setItems(hospedagemList);
+
+        //Iniciando colunas da tabela de Usuario
+        usuarioName.setCellValueFactory(cellData -> cellData.getValue().getRefCli());
+        usuarioDescricao.setCellValueFactory(cellData -> cellData.getValue().getDescricao());
+        usuarioPedidoId.setCellValueFactory(cellData -> cellData.getValue().getId());
+        usuarioPrecoAnterior.setCellValueFactory(cellData -> cellData.getValue().getPrecoAnterior());
+
+        tabelaUsuario.setItems(usuarioList);
 
     }
 
@@ -168,6 +192,56 @@ public class Controller implements Initializable {
 
         tabPaneGeral.setVisible(true);
         painelCadastroPassagem.setVisible(false);
+    }
+
+
+    /*==================
+     METODOS DO SERVIDOR
+     =================*/
+
+    public void addRegistroUsuario(int idTransacao, InterfaceCli refCli,
+                                                       float precoAnterior, String descricao) throws RemoteException{
+        jfxPanelDummy = new JFXPanel();
+        System.out.println("Recebido um pedido de registro de notificacao");
+        Usuario auxUsuario = new Usuario(idTransacao,refCli,precoAnterior,descricao);
+        System.out.println("Passou do auxUsuario");
+
+
+
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        //Background work
+                        final CountDownLatch latch = new CountDownLatch(1);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try{
+                                    //FX Stuff done here
+                                    usuarioList.add(auxUsuario);
+                                }finally{
+                                    latch.countDown();
+                                }
+                            }
+                        });
+                        latch.await();
+                        //Keep with the background work
+                        return null;
+                    }
+                };
+            }
+        };
+        service.start();
+
+
+
+
+
+
+        System.out.println("ID: " + idTransacao + " Preco: " + precoAnterior + " Descricao: " + descricao);
     }
 
 }
